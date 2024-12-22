@@ -9,8 +9,8 @@
 <body>
     <h1>Текущая загрузка CPU: <span id="cpu-percent">0%</span></h1>
     <h1>Текущая температура CPU: <span id="cpu-temperature">0</span></h1>
-    <h1>Текущая загрузка RAM: <span id="ram">0 Гб / 0 Гб | 0%</span></h1>
-    <h1>Отправлено: <span id="sent">0 </span> Мбит/сек | Получено: <span id="recv">0 </span> Мбит/сек</h1>
+    <h1>Текущая загрузка RAM: <span id="ram-used">0</span> Гб / <span id="ram-total">0</span> Гб | <span id="ram-percent">0</span>%</h1>
+    <h1>Отправлено: <span id="sent">0</span> Мбит/сек | Получено: <span id="recv">0</span> Мбит/сек</h1>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

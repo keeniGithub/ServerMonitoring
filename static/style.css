@@ -5,23 +5,12 @@ body, html {
     background: #000;
 }
 
-.video-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-img{
-    width: 75%;
-    height: 75%;
-    object-fit: cover; /* Заполнение всего экрана */
-    border-radius: 10px;
-    border: #ffffff25 solid 10px;
-}
-
-h1{
+h1 {
     color: white;
     text-align: center;
     font-size: 60px;
+}
+
+.alert {
+    color: red;
 }
