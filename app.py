@@ -4,12 +4,14 @@ import cv2
 import numpy as np
 import psutil
 import pyautogui
+import os
 from PIL import Image
 
 app = Flask(__name__)
 
 def generate_frames():
-    cursor_image = Image.open('https://combative-moose-852.convex.site/getImage?storageId=kg2erm7r68ysvseejbp9fbrsps76zrrv')  # Укажите путь к вашему изображению курсора
+    img_path = "Z:\script\JS\Monitoring\static\cursor.png" if os.name == 'nt' else "/home/kenyka/Documents/GitHub/ServerMonitoring/static/cursor.png"
+    cursor_image = Image.open(img_path)
     cursor_width, cursor_height = 16, 16
 
     while True:
