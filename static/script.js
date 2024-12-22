@@ -29,6 +29,16 @@ function updateNetStats() {
         .catch(error => console.error('Error fetching CPU percent:', error));
 }
 
+function updateCpuTemperature() {
+    fetch('/cpu_temperature')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('cpu-temperature').innerText = data.cpu_temp;
+        })
+        .catch(error => console.error('Error fetching CPU percent:', error));
+}
+
 setInterval(updateCpuPercent, 1000); // Обновлять каждую секунду
 setInterval(updateRamStats, 1000); // Обновлять каждую секунду
 setInterval(updateNetStats, 1000); // Обновлять каждую секунду
+setInterval(updateCpuTemperature, 1000); // Обновлять каждую секунду

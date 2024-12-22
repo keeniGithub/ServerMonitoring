@@ -7,10 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="video-container">
-        <img src="{{ url_for('video_feed') }}" alt="Screen Feed">
-    </div>
     <h1>Текущая загрузка CPU: <span id="cpu-percent">0%</span></h1>
+    <h1>Текущая температура CPU: <span id="cpu-temperature">0</span></h1>
     <h1>Текущая загрузка RAM: <span id="ram">0 Гб / 0 Гб | 0%</span></h1>
     <h1>Отправлено: <span id="sent">0 </span> Мбит/сек | Получено: <span id="recv">0 </span> Мбит/сек</h1>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

@@ -1,55 +1,37 @@
+import subprocess
 import time
 from flask import Flask, jsonify, render_template, Response
-import cv2
-import numpy as np
 import psutil
-import pyautogui
-import os
-from PIL import Image
 
 app = Flask(__name__)
 
-def generate_frames():
-    img_path = "Z:\script\JS\Monitoring\static\cursor.png" if os.name == 'nt' else "/home/kenyka/Documents/GitHub/ServerMonitoring/static/cursor.png"
-    cursor_image = Image.open(img_path)
-    cursor_width, cursor_height = 16, 16
-
-    while True:
-        # Захват экрана
-        screenshot = pyautogui.screenshot()
-        frame = np.array(screenshot)
-
-        # Получаем позицию курсора
-        cursor_x, cursor_y = pyautogui.position()
-
-        # Преобразование цвета от RGB к BGR
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-
-        # Накладываем курсор на изображение
-        screenshot_pil = Image.fromarray(frame)
-        screenshot_pil.paste(cursor_image, (cursor_x - cursor_width // 2, cursor_y - cursor_height // 2), cursor_image)
-
-        # Преобразуем обратно в массив NumPy
-        frame_with_cursor = np.array(screenshot_pil)
-
-        # Кодирование в JPEG
-        ret, buffer = cv2.imencode('.jpg', frame_with_cursor)
-        frame_with_cursor = buffer.tobytes()
-
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_with_cursor + b'\r\n')
+def get_cpu_temperature():
+    try:
+        # Выполняем команду `sensors` и получаем вывод
+        output = subprocess.check_output(['sensors']).decode('utf-8')
+        # Ищем строку с температурой процессора
+        for line in output.splitlines():
+            if 'Core' in line:  # Обычно температура процессора начинается со слова "Core"
+                # Извлекаем температуру из строки
+                parts = line.split()
+                # Предполагаем, что температура будет в формате 'xx.x°C'
+                temp = parts[2]  # Обычно температура находится на третьей позиции
+                return temp
+    except Exception as e:
+        return str(e)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
 @app.route("/cpu_percent", methods=["GET"])
 def cpu_percent():
     return jsonify(cpu_percent=psutil.cpu_percent(interval=1))
+
+@app.route('/cpu_temperature', methods=['GET'])
+def cpu_temperature():
+    temperature = get_cpu_temperature()
+    return jsonify(cpu_temp=temperature)
 
 @app.route("/ram_stats", methods=["GET"])
 def ram_stats():
