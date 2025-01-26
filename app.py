@@ -1,6 +1,7 @@
 import subprocess
 import time
 from flask import Flask, jsonify, render_template
+from datetime import datetime
 import psutil
 
 app = Flask(__name__)
@@ -58,5 +59,11 @@ def network_speed():
 
     return jsonify(sent=mb_sent, recv=mb_recv)
 
+@app.route("/time", methods=["GET"])
+def times():
+    now = datetime.now()
+    formatted_time = now.strftime("%H:%M:%S")
+    return jsonify(time=formatted_time)
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='192.168.0.137', port=80)

@@ -51,5 +51,15 @@ function updateNetStats() {
         .catch(error => console.error('Error fetching network stats:', error)) 
 }
 
+function updateTime() {
+    fetch('/time')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('time').innerText = data.time
+        })
+        .catch(error => console.error('Error fetching network stats:', error)) 
+}
+
+setInterval(updateTime, 1000)
 setInterval(updateSystemStats, 1000)
 setInterval(updateNetStats, 1000)
